@@ -1,0 +1,47 @@
+[project]
+name = "pynle"
+version = "0.1"
+description = "Neural Linear Embedding"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "numpy",
+    "scipy",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "flake8",
+    "mypy",
+    "black",
+    "isort",
+    "taskipy",
+    "pre-commit",
+    "jupyterlab",
+]
+
+[tool.black]
+target-version = ["py39"]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+py_version = 39
+line_length = 120
+
+[tool.mypy]
+python_version = 3.9
+ignore_missing_imports = true
+
+[tool.taskipy.tasks]
+test = "python -m pytest tests/"
+format = "black .; isort ."
+lint = "mypy .; flake8 ."
+jupyter = "jupyter lab --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password=''"
