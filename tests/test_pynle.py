@@ -28,7 +28,7 @@ def test_pynle():
 
     nle = NeuralLinearEmbedding(k=2)
     nle.fit(corpus)
-    U, S, Vt = nle.transform()
+    doc_embeddings, word_embeddings = nle.transform()
 
-    assert (N, K) == U.shape
-    assert (K, V) == Vt.shape
+    assert (N, K) == doc_embeddings.shape
+    assert (V, K) == word_embeddings.shape

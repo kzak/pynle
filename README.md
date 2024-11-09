@@ -19,10 +19,12 @@ from pynle import NeuralLinearEmbedding
 # The corpus should be of type list[list[str]] as shown below.
 # corpus = [["w1", "w2", ...], ["w3", "w1", ...], ...]
 
-nle = NeuralLinearEmbedding(k=2)
-doc_embeddings, _, word_embeddings = nle.fit_transform(corpus)
+n_latent_dim = 2
+nle = NeuralLinearEmbedding(k=n_latent_dim)
+doc_embeddings, word_embeddings = nle.fit_transform(corpus)
 
-assert len(corpus) == len(doc_embeddings)
+assert len(corpus) == doc_embeddings.shape[0]
+assert n_latent_dim == doc_embeddings.shape[1]
 ```
 
 Please see `notebooks/pynle_example.py` for a more detailed example.

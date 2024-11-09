@@ -54,8 +54,8 @@ class NeuralLinearEmbedding:
 
     def transform(self):
         PMI_sparse = csr_matrix(self.PMI)
-        U, S, Vt = svds(PMI_sparse, k=self.k)
-        return U, S, Vt
+        U, _, Vt = svds(PMI_sparse, k=self.k)
+        return U, Vt.T
 
     def fit_transform(self, corpus: list[list[str]]):
         self.fit(corpus)
