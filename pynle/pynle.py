@@ -1,9 +1,24 @@
 from collections import defaultdict
+from logging import INFO, Formatter, StreamHandler, getLogger
 
 import numpy as np
 import tqdm
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import svds
+
+
+def build_logger():
+    logger = getLogger(__name__)
+    logger.setLevel(INFO)
+
+    fmt = "[%(filename)s:%(lineno)d][%(levelname)s][%(asctime)s] %(message)s"
+    stream_hander = StreamHandler()
+    stream_hander.setFormatter(Formatter(fmt=fmt))
+    logger.addHandler(stream_hander)
+    return logger
+
+
+logger = build_logger()
 
 
 def build_word_freq(words: list[str]) -> dict[str, int]:
@@ -38,6 +53,7 @@ class NeuralLinearEmbedding:
         V = len(word_prob.keys())  # The number of vocabularies
         word_to_id = dict(zip(word_prob.keys(), range(V)))
 
+        logger.info(f"Building PMI matrix ({N}, {V})")
         PMI = np.zeros(shape=(N, V))  # PMI matrix
         for d, pw_d in tqdm.tqdm(cond_prob.items()):
             for w, pw_d in pw_d.items():
@@ -53,6 +69,7 @@ class NeuralLinearEmbedding:
         self.id_to_word = dict(zip(word_to_id.values(), word_to_id.keys()))
 
     def transform(self):
+        logger.info("Executing SVD. Please wait.")
         PMI_sparse = csr_matrix(self.PMI)
         U, _, Vt = svds(PMI_sparse, k=self.k)
         return U, Vt.T

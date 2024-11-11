@@ -46,6 +46,7 @@ line_length = 120
 [tool.mypy]
 python_version = 3.9
 ignore_missing_imports = true
+exclude = ["build", "tests", "notebooks"]
 
 [tool.taskipy.tasks]
 test = "python -m pytest tests/"
