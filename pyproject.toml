@@ -1,30 +1,26 @@
 [project]
 name = "pynle"
-version = "0.1"
-description = "Neural Linear Embedding"
+version = "0.1.0"
+description = "Linear Embedding"
 readme = "README.md"
-license = {file = "LICENSE"}
 requires-python = ">=3.9"
-classifiers = [
-    "Programming Language :: Python :: 3.9",
-    "License :: OSI Approved :: MIT License",
-]
 dependencies = [
-    "numpy",
-    "scipy",
-    "tqdm",
+    "numpy==1.26.4",
+    "scipy>=1.13.1",
+    "tqdm>=4.67.1",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "pytest",
-    "flake8",
-    "mypy",
-    "black",
-    "isort",
-    "taskipy",
-    "pre-commit",
-    "jupyterlab",
+    "black>=24.10.0",
+    "isort>=5.13.2",
+    "jupyterlab>=4.3.1",
+    "mypy>=1.13.0",
+    "pandas>=2.2.3",
+    "pip>=24.3.1",
+    "pytest>=8.3.3",
+    "ruff>=0.8.0",
+    "wheel>=0.45.1",
 ]
 
 [build-system]
@@ -33,23 +29,3 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["pynle"]
-
-[tool.black]
-target-version = ["py39"]
-line-length = 120
-
-[tool.isort]
-profile = "black"
-py_version = 39
-line_length = 120
-
-[tool.mypy]
-python_version = 3.9
-ignore_missing_imports = true
-exclude = ["build", "tests", "notebooks"]
-
-[tool.taskipy.tasks]
-test = "python -m pytest tests/"
-format = "black .; isort ."
-lint = "mypy .; flake8 ."
-jupyter = "jupyter lab --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password=''"
